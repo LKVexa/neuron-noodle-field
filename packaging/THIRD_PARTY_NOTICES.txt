@@ -1,0 +1,6 @@
+Project-owned source, compiled NeuralRuntime interpreter, and examples are
+GPL-3.0-only. The bootstrap distribution includes official Microsoft .NET
+and Windows Desktop runtime files under their original licenses. Their
+complete supplied licenses and third-party notices are copied to licenses/.
+Python, NumPy and Pillow are authoring/test dependencies and are not included
+in this ready-to-run player package.
