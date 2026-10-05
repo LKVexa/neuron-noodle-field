@@ -1,0 +1,13 @@
+{
+  "schema": "nnf-checkpoint/2",
+  "version": "0.3.0",
+  "tick": 6,
+  "shape": [
+    32,
+    32
+  ],
+  "state_sha256": "3603cf9fd952878a7a3cea319d54e0da061154eda087aa554423594d4912121b",
+  "model_sha256": "c2474d6218d40f8a935e12a3e4b18163cedb575e74b11945d4fc049f4bcc886e",
+  "program_sha256": "cc22db748b783bb2968a42da2dee1460e7c8067f520e7d987697e5167be1f49e",
+  "binary_state_sha256": "03efbe88617263329776527daed5cc9f1ce652ce518d8010536fba0dbc5d0e65"
+}
