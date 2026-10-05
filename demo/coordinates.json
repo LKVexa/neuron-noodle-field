@@ -1,0 +1,20 @@
+{
+  "profile": "tgc-neural-pixel160/1",
+  "order": "row-major",
+  "axes": [
+    "t",
+    "z",
+    "y",
+    "x",
+    "c"
+  ],
+  "shape": [
+    1,
+    1,
+    32,
+    32,
+    1
+  ],
+  "tick": 12,
+  "field_root": "8623dea57830d5b07c72d5b5b6bb15bebe1e31bad0046e635bf056e5d4b9782d"
+}
