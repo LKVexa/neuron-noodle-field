@@ -1,0 +1,19 @@
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "neuron-noodle-field"
+version = "0.3.0"
+description = "Executable neural operator graphs, models and field state carried in TIFF/GIF pixels"
+readme = "README.md"
+requires-python = ">=3.12"
+license = "GPL-3.0-only"
+license-files = ["LICENSE"]
+dependencies = ["numpy==2.3.5", "Pillow==12.3.0"]
+
+[project.scripts]
+neuron-noodle-field = "neural_field:main"
+
+[tool.setuptools]
+py-modules = ["neural_field", "graph_vm"]

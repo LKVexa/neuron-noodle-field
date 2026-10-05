@@ -1,0 +1,103 @@
+{
+  "project": "neuron-noodle-field",
+  "version": "0.3.0",
+  "audit_date": "2026-10-05",
+  "scope": "Pixel-carried neural graph, model and current state; generic dual interpreter; refresh continuation",
+  "status": "PASS_WITH_DOCUMENTED_LIMITS",
+  "findings": [
+    {
+      "id": "NNF-001",
+      "severity": "medium",
+      "finding": "Neural helper functions relied on caller validation and admitted malformed shapes or nonfinite model values.",
+      "fix": "Validate state, one-to-nine finite model weights, scalar bounds, operator registers/arity, tensor shapes and resource limits.",
+      "status": "FIXED"
+    },
+    {
+      "id": "NNF-002",
+      "severity": "medium",
+      "finding": "Checkpoint restore silently converted non-255 pixels to zero and lacked integrity binding of state and model.",
+      "fix": "Use a bounded integrity manifest covering TIFF state, JSON model and executable graph; validate binary pixels and generic program/model admission.",
+      "status": "FIXED"
+    },
+    {
+      "id": "NNF-003",
+      "severity": "medium",
+      "finding": "Input carrier import validated only its first frame, leaving conflicting or corrupted later frames unexamined.",
+      "fix": "Inspect every frame within explicit byte, dimension, frame and decoded-pixel limits and require one identical job.",
+      "status": "FIXED"
+    },
+    {
+      "id": "NNF-004",
+      "severity": "low",
+      "finding": "Direct sigmoid evaluation could overflow on extreme finite inputs.",
+      "fix": "Clip finite logits to [-60, 60] before exponentiation while keeping binary classification threshold unchanged.",
+      "status": "FIXED"
+    },
+    {
+      "id": "NNF-005",
+      "severity": "medium",
+      "finding": "Output writes could replace existing artifacts and published partial output before all checks passed.",
+      "fix": "Require a new output directory, retain a stable source-byte snapshot, stage execution, and publish only after numerical and carrier checks pass.",
+      "status": "FIXED"
+    },
+    {
+      "id": "NNF-006",
+      "severity": "low",
+      "finding": "Receipts exposed absolute machine paths and the demo depended on a shared multi-operation application.",
+      "fix": "Isolate neural-only code and CLI, use Pillow's portable font, and store only relative source paths in evidence.",
+      "status": "FIXED"
+    },
+    {
+      "id": "NNF-007",
+      "severity": "medium",
+      "finding": "Windows TemporaryDirectory staging retained an owner-only ACL after publish, preventing desktop-user access.",
+      "fix": "Use UUID-named ordinary mkdir staging with inherited output permissions, and restored inheritance on existing demo files.",
+      "status": "FIXED"
+    },
+    {
+      "id": "NNF-008",
+      "severity": "high",
+      "finding": "The earlier carrier selected a Python-coded OR recipe instead of carrying the executable graph, model and current state.",
+      "fix": "Encode the operator graph, weights/bias and state in pixels. Generic tensor and independent scalar interpreters execute that graph. Refreshed carriers advance the saved field. OR/AND model and center-only graph changes produce different outputs from the same host.",
+      "status": "FIXED"
+    },
+    {
+      "id": "NNF-009",
+      "severity": "low",
+      "finding": "Direct scalar reference calls did not bound intermediate integer growth or validate returned grids independently of the primary interpreter.",
+      "fix": "Check reference intermediate shape/range after every instruction and reject nonbinary outputs or mismatched DOT inputs. Carrier execution already ran the bounded primary interpreter first.",
+      "status": "FIXED"
+    }
+  ],
+  "validation": {
+    "test_command": "python -m unittest discover -s tests -v",
+    "tests_run": 21,
+    "tests_passed": 21,
+    "numpy": "2.3.5",
+    "pillow": "12.3.0",
+    "covered": [
+      "All 32 OR and AND neighborhoods",
+      "Model mutation changes both TIFF/GIF outputs from five cells to zero",
+      "Program GATHER mutation changes both TIFF/GIF outputs from five cells to one",
+      "Refreshed TIFF/GIF reexecution advances carried tick/state",
+      "Existing-carrier execution never retrains",
+      "Generic one-weight graph and arithmetic primitive",
+      "Independent Manhattan oracle and zero boundary",
+      "Checkpoint includes program and reproduces uninterrupted final bytes",
+      "Program/model/image corruption and resource limits reject",
+      "Relative evidence and MSSL seal",
+      "Direct reference entry point rejects intermediate growth, mismatched models and invalid output"
+    ],
+    "visual_review": "PASS: final-frame PNG inspected after ACL correction",
+    "behavior_evidence": "examples/behavior_evidence.json"
+  },
+  "limitations": [
+    "Generic bounded tensor graph, not an arbitrary-program or full Penteract runtime",
+    "Graph/model/state are in pixels; generic Python/NumPy interpreter implementation remains external",
+    "No physical optical computing claim",
+    "MSSL records evidence, not native MSSL execution",
+    "Hashes provide integrity, not author authentication",
+    "Diagnostic probabilities are recalculated from the current binary field",
+    "Floating-point bytes can vary across numerical platforms"
+  ]
+}
