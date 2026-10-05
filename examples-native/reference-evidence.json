@@ -1,0 +1,48 @@
+{
+  "version": "0.4.0",
+  "profile": "nnf-native/1",
+  "cases": {
+    "or": {
+      "formats": {
+        "tiff": {
+          "sha256": "9fe9c84e6fe734ff63feeac6f59b398e5a155a7600d791b8b9c32a25bf1a0d7a"
+        },
+        "gif": {
+          "sha256": "2d24442ca12fe4346b633ea8e3552bd4c8dbd23408bcff91663685fb83c956f0"
+        }
+      },
+      "expected_active_cells": 5,
+      "runtime_sha256": "fa86bb639b7bd1be6daee72fcd705c967fe7f44d4736a8dd66a7f4c0261b8372",
+      "program_sha256": "5e6a37d4b7bd183a3f819c3c0855ef7f1b63c3ba3e46269a6f419db2be0fc155",
+      "model_sha256": "4c8aa8d7be43b93d8555d9840b0a92b32c1d5fad77bc4b6648f5a0189ec8f0cf"
+    },
+    "and": {
+      "formats": {
+        "tiff": {
+          "sha256": "d0b0d4628119be2748a0119a0654ffd10c2adf8347f93ed72640a8ecff3fdcdd"
+        },
+        "gif": {
+          "sha256": "5ecebac4bf05f990c308247ec11dc11aca5caa11c3e047d11a20ae291a36dc2a"
+        }
+      },
+      "expected_active_cells": 0,
+      "runtime_sha256": "fa86bb639b7bd1be6daee72fcd705c967fe7f44d4736a8dd66a7f4c0261b8372",
+      "program_sha256": "5e6a37d4b7bd183a3f819c3c0855ef7f1b63c3ba3e46269a6f419db2be0fc155",
+      "model_sha256": "580d731e3f9276684cfee3cea88ab48be47f0f3eddef9e3715ac172d1a3e0c56"
+    },
+    "center": {
+      "formats": {
+        "tiff": {
+          "sha256": "c7f026dd22b5f6f714855d713ca6b23a85f31fd57cbc5b011416e03f11179605"
+        },
+        "gif": {
+          "sha256": "2db23631f2d2239f224832d4fd27f54979e7e90ea25fd681fabb7258a5dca75d"
+        }
+      },
+      "expected_active_cells": 1,
+      "runtime_sha256": "fa86bb639b7bd1be6daee72fcd705c967fe7f44d4736a8dd66a7f4c0261b8372",
+      "program_sha256": "5bcf8e816ad89e57a890c265753c81f97ff16fea242b4750a1cfe71e8335fc18",
+      "model_sha256": "4c8aa8d7be43b93d8555d9840b0a92b32c1d5fad77bc4b6648f5a0189ec8f0cf"
+    }
+  }
+}
