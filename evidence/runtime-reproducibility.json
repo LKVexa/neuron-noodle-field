@@ -1,0 +1,10 @@
+{
+  "schema": "neural-runtime-reproducibility/1",
+  "version": "0.4.0",
+  "test": "Committed local source, fresh Git clone at a different absolute path, rebuild with pinned SDK10.0.401",
+  "fresh_checkout_commit": "81f4b188fd41368376bef16b8c2c525f68ea4db4",
+  "runtime_sha256": "fa86bb639b7bd1be6daee72fcd705c967fe7f44d4736a8dd66a7f4c0261b8372",
+  "matches_shipped_image_runtime": true,
+  "debug_metadata": "none",
+  "source_revision_in_informational_version": false
+}
