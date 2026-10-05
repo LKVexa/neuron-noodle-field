@@ -1,0 +1,73 @@
+{
+  "version": "0.3.0",
+  "executor_sha256": "be3922d0688e5625c87f33d66077083edc69bc731d45da5ff6b4959f95874531",
+  "cases": {
+    "or": {
+      "program_sha256": "47a0df9400e598d089070a4c3e71ea7773e1bcbc6f930d34b51bae08fb8b029d",
+      "model_sha256": "582a3b8754a77adeab07801b5e1fce1bc470fc096f537f67d19ffa2be8ac298f",
+      "formats": {
+        "tiff": {
+          "image_sha256": "fee7e94171d09c18561f31715997f94948741231f1f1de6b346a0d440bae3cf3",
+          "active_cells": 5,
+          "final_tick": 1,
+          "refreshed_tick": 2,
+          "refreshed_active_cells": 13,
+          "scalar_reference_pass": true
+        },
+        "gif": {
+          "image_sha256": "84ce6fecea03ff66a91a3a4b9f89354df427b3d18ab0c8ab92058c4abc6f69d8",
+          "active_cells": 5,
+          "final_tick": 1,
+          "refreshed_tick": 2,
+          "refreshed_active_cells": 13,
+          "scalar_reference_pass": true
+        }
+      }
+    },
+    "and": {
+      "program_sha256": "47a0df9400e598d089070a4c3e71ea7773e1bcbc6f930d34b51bae08fb8b029d",
+      "model_sha256": "b81d73b4d06b4ae997a8b8484fede85e0ec32e3cef799f892c3c7dad3886fd0c",
+      "formats": {
+        "tiff": {
+          "image_sha256": "c8438388d21c084f548fc20de7958d8e973a41e0bae5f1268c6c4e384c0359b7",
+          "active_cells": 0,
+          "final_tick": 1,
+          "refreshed_tick": 2,
+          "refreshed_active_cells": 0,
+          "scalar_reference_pass": true
+        },
+        "gif": {
+          "image_sha256": "a9ca45e5584dec3f4db32d3f82cd601295e1a9df38d9314a2e09d69b0e4f751d",
+          "active_cells": 0,
+          "final_tick": 1,
+          "refreshed_tick": 2,
+          "refreshed_active_cells": 0,
+          "scalar_reference_pass": true
+        }
+      }
+    },
+    "center": {
+      "program_sha256": "e2f6340be26b8c87c1dae0fafe46dec13e486cb2e5a4de012438d7be2325eb4f",
+      "model_sha256": "582a3b8754a77adeab07801b5e1fce1bc470fc096f537f67d19ffa2be8ac298f",
+      "formats": {
+        "tiff": {
+          "image_sha256": "1cb9658aa5fc8bb85ec60b028e8d4678604a9cf84746c86617654c43dfeed2a0",
+          "active_cells": 1,
+          "final_tick": 1,
+          "refreshed_tick": 2,
+          "refreshed_active_cells": 1,
+          "scalar_reference_pass": true
+        },
+        "gif": {
+          "image_sha256": "b697261570bfee6c888d5d87904395de32896155add2fea22035a728a2fb5524",
+          "active_cells": 1,
+          "final_tick": 1,
+          "refreshed_tick": 2,
+          "refreshed_active_cells": 1,
+          "scalar_reference_pass": true
+        }
+      }
+    }
+  },
+  "changed_image_changes_computation": true
+}
