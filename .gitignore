@@ -6,5 +6,8 @@ build/
 dist/
 *.egg-info/
 runs/
+releases/
+**/bin/
+**/obj/
 .nnf-*/
 .nnf-resume-*/

@@ -21,7 +21,7 @@ import numpy as np
 from PIL import Image, ImageDraw, ImageFont, UnidentifiedImageError
 import graph_vm
 
-VERSION = "0.3.0"
+VERSION = "0.4.0"
 MAGIC = b"NNFIELD2"
 WIDTH, HEIGHT, Y0, CELL = 960, 720, 512, 1
 MAX_PAYLOAD = 16384

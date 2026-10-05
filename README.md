@@ -1,107 +1,78 @@
 # Neuron Noodle Field
 
-**Version 0.3.0 · Python 3.12+ · GPL-3.0-only**
+**Version 0.4.0 · Windows desktop player · GPL-3.0-only**
 
-An executable neural operator graph, its model, and its current field state are stored in TIFF/GIF pixels. A bounded generic interpreter reads those pixels and runs the carried instructions. Refreshed output images contain the new state, so executing them again advances the computation.
+The **interpreter module, executable neural graph, model and current field state are stored in TIFF/GIF pixels**. The desktop player reads the image, verifies its approved interpreter, executes its carried graph, and writes the next state into a new image.
 
-![An image-carried neural graph propagating a binary field](demo/processing.gif)
+## Download and run
 
-The image supplies the neighborhood offsets, weights, bias, arithmetic, activation, threshold, and starting state. Changing the carried model or program changes the result without editing the interpreter. Training is only an example-preparation step; executing a carrier does not retrain or select a fixed host OR routine.
+Download **Neuron-Noodle-0.4.0-win-x64.zip** from the [v0.4.0 release](https://github.com/LKVexa/neuron-noodle-field/releases/tag/v0.4.0). Extract the whole ZIP, then double-click **Play.cmd** or **NeuralPlayer.exe**. Keep the extracted files together. The package includes the required .NET runtime; no Python, SDK, administrator access or command prompt is needed.
 
-Computation still requires the Python/NumPy CPU interpreter in this repository. The generic interpreter's implementation is external to the image; its executable operator graph is in the image. An ordinary image viewer only displays the animation. This is not a physical optical computer or a full Penteract release qualification.
+The GitHub **Source code** ZIP is for development. The named Windows ZIP is the ready-to-run application.
 
-## Run it
-
-```bash
-python -m venv .venv
-# Activate the environment using your shell's usual command.
-python -m pip install -r requirements.txt
-python run.py
-```
-
-The default command prepares an image containing a trained local OR model, its operator graph, a 32 × 32 state with one active center cell, and twelve requested steps. It then executes that image into `runs/demo/`. Output folders must be new; existing runs are preserved.
-
-```bash
-# Inspect the code, model and state recovered from pixels.
-python run.py inspect demo/input.tiff
-
-# Re-run the initial twelve-step image program.
-python run.py run demo/input.tiff --output runs/replay
-
-# Advance the state carried by a refreshed output image by one step.
-python run.py run demo/processing.gif --output runs/next
-python run.py run runs/next/processing.tiff --output runs/next-again
-
-# Continue the included midpoint checkpoint, including its saved program.
-python run.py resume demo/checkpoint --steps 6 --output runs/resumed
-```
-
-The pinned tested stack is NumPy 2.3.5 and Pillow 12.3.0. Install with `python -m pip install .` to also get the `neuron-noodle-field` command.
-
-## Proof that the image controls execution
-
-These three examples use the same starting state and the same interpreter. Both TIFF and GIF versions are included and executed in the recorded checks:
-
-| Image program | What changed in the pixels | Active cells after one step | After refreshing once |
-| --- | --- | ---: | ---: |
-| `examples/or.tiff` / `.gif` | Baseline learned model and five-neighbor graph | 5 | 13 |
-| `examples/and.tiff` / `.gif` | Only the weights and bias | 0 | 0 |
-| `examples/center.tiff` / `.gif` | Only the graph's GATHER offsets | 1 | 1 |
-
-```bash
-python run.py run examples/or.gif --output runs/or
-python run.py run examples/and.gif --output runs/and
-python run.py run examples/center.gif --output runs/center
-```
-
-[Behavior evidence](examples/behavior_evidence.json) records the image, model, program, and unchanged interpreter hashes. Reproduce the authored variants in a new folder with `python prepare_examples.py --output runs/variants`.
-
-## The image language
-
-The bounded `nnf-image/1` payload contains `program`, `model`, `state`, `tick`, and `steps`. The program has at most 32 instructions and sixteen registers. Its generic primitives are:
-
-| Instruction | Meaning |
+| Control | Action |
 | --- | --- |
-| `STATE dst` | Load the image-carried binary field |
-| `PARAM dst key` | Load carried model weights or bias |
-| `CONST dst number` | Load a finite numeric constant |
-| `GATHER dst src offsets` | Sample carried offsets with zero padding |
-| `DOT dst features weights` | Compute a feature-weight dot product |
-| `ADD` / `MUL dst a b` | Scalar or shape-matched tensor arithmetic |
-| `SIGMOID dst src` | Bounded logistic activation |
-| `GE dst a b` | Elementwise threshold comparison |
-| `RETURN state probabilities` | Return a binary grid and probability grid |
+| Execute image / Right arrow | Run the step count carried by the current image |
+| Run / pause / Space | Advance automatically, then pause |
+| Open image / O | Load another model/program or an exported continuation |
+| Reload / R | Return to the opened image's original state |
+| Export TIFF + GIF / E | Save the current program, runtime, model and state to new files |
 
-The default image spells out this graph: load state → gather five offsets → dot product → add bias → sigmoid → compare with 0.5 → return. The interpreter contains no named OR/AND/center rule opcode. A second implementation evaluates the same graph with Python lists and scalar math; its output must agree with the NumPy execution before the state is accepted.
+Open `examples/and.tiff` or `examples/center.gif` in the downloaded package to compare behavior. Each starts with one seed. OR spreads it, AND extinguishes it, and CENTER holds it in place. The difference is in the image's weights or graph, not a selected host routine.
 
-Author other supported programs through `make_image_job`, `encode_payload`, and `save_carriers` in `neural_field.py`. `prepare_image_job` trains the default example before encoding it. Its training function is not called when an existing image executes.
+![The current neural field and computed probability](examples-native/preview.png)
 
-## Output and checkpoints
+## What executes
 
-`processing.tiff` and `processing.gif` carry the final accepted state, the same program/model, and a one-step refresh request. Every animation frame contains that same current payload; the visual frames show the run's history. `input.tiff`, `.gif`, or `.png` retains the exact input bytes.
+Each native image contains compressed bytes of the compiled `NeuralRuntime` assembly, the generic operator graph, model weights/bias, binary field, tick and requested steps. The C# bootstrap requires a build-time approved assembly hash, recovers the module from pixels and loads it in memory. There is no adjacent `NeuralRuntime.dll` fallback. The interpreter implements **STATE, PARAM, CONST, GATHER, DOT, ADD, MUL, SIGMOID, GE and RETURN**; it has no named OR, AND or CENTER routine.
 
-`field_states.tiff` contains all accepted grids. `receipt.json` contains relative source paths, parameters, program/model hashes, state roots, scalar-reference checks, and artifact hashes. `checkpoint/` stores the midpoint state, model, program, and integrity manifest. A checkpoint can resume without retraining.
+The .NET CLR, operating system, image codecs, user interface and renderer remain outside the image. They provide the bootstrap that reads and runs the embedded interpreter. Computation uses a CPU. An ordinary image viewer only displays the image; there is no physical optical computing claim or full Penteract qualification.
 
-`accepted_pixel160.bin` uses a local 160-bit cell format: five big-endian 32-bit lanes containing float32 probability bits, accepted bit, tick, cell type `1`, and reserved `0`. Coordinates remain in `coordinates.json`. The persisted computational field is the binary grid; diagnostic probabilities are recalculated during execution. This local format is not a claim of universal Pixel160 compatibility.
+Model numbers and numeric constants use bounded decimal strings in the native packet, avoiding cross-language differences in JSON float formatting. The interpreter converts them to finite float64 values. Grid coordinates, registers, ticks and binary state remain JSON integers. Native payloads use `NNFIELD3`, `nnf-native/1` and `nnf-graph/2`.
 
-`evidence.mssl` is a sealed MSSL version 0.3 `module`/`learn` evidence record. It identifies host CPU execution and explicitly disclaims native MSSL computation. No MSSL/LCTL runtime, OCR engine, Java runtime, or external corpus is redistributed.
+The player checks a **pinned approved runtime hash** before loading a module. A self-consistent checksum on another assembly does not authorize it. Image graphs cannot request files, network access, imports, shell commands or arbitrary code. SHA256 packet checks detect damage; they are not author signatures.
 
-## Bounds and integrity
+## Verified behavior
 
-Fields are 8–64 cells per side, with 1–24 steps per invocation. Programs have at most 32 instructions, model vectors at most nine finite weights, and GATHER offsets at most two cells in each direction. Intermediate values, shapes, and tick counts are bounded. Images must be 960 × 720 TIFF/GIF/PNG files, at most 32 MiB and 32 frames; canonical payloads are at most 16 KiB.
+| Image-only change | Active cells after one execution | After reopening the export |
+| --- | ---: | ---: |
+| OR graph and model | 5 | 13 |
+| AND weights/bias | 0 | 0 |
+| CENTER GATHER offsets | 1 | 1 |
 
-Every frame's exact black/white payload cells, length, SHA256, JSON structure, graph, model and state are checked. Checkpoints validate bounded files, hashes, model/program structure, dimensions and exact binary pixels. Failed runs do not publish partial output or replace existing runs. Published output directories inherit normal user permissions on Windows.
+Both TIFF and GIF are tested. Independent NumPy and scalar Python interpreters verify exact binary-state equality and probability agreement at `rtol=atol=1e-12`. Native tests include all 32 local binary neighborhoods, random finite models, a generic arithmetic graph, multiple requested steps, unknown opcodes, invalid registers, nonfinite models, overflow, corrupt cells, conflicting frames and source preservation.
 
-Hashes detect changes; they do not authenticate an author. Validly re-encoded programs are intentionally allowed to behave differently. Image programs cannot request Python evaluation, imports, shell commands, filesystem access, or network actions. Floating-point bytes can vary across numerical platforms; the independent scalar comparison uses a stated `1e-12` tolerance and requires exact binary-state agreement.
+The packaged EXE was tested with `PATH` restricted to Windows System32. It executed without Python, authoring sidecars or a loose interpreter DLL. Its live window test exercised keyboard handlers, three timer updates, TIFF/GIF export callbacks and continuation from both exports. See [audit.json](audit.json) and [native release evidence](evidence/native-release.json). A passing smoke test does not replace testing on every Windows configuration; policy-denied execution is reported, not bypassed.
 
-## Test and audit
+## Bounds
 
-```bash
+Fields are 8–64 cells per side; an invocation executes 1–24 steps. Graphs have at most 32 instructions and 16 registers; models have at most nine weights. GATHER offsets are within two cells, use zero padding and are specified by the image. Inputs are bounded by 1e6 and finite intermediate magnitudes by 1e13. SIGMOID clamps logits to [-60,60]. Tick counts cannot exceed one million.
+
+Native images are exactly 960 × 720, at most 32 MiB and 32 frames. Their checksum-protected canonical packet is at most 24,000 bytes; the recovered interpreter is at most 128 KiB. Every frame must contain the same payload. The native loader preflights restricted classic TIFF/GIF/PNG structures before decoding. GIF palette changes preserve binary program cells. Cropping, resampling or lossy recompression can destroy them.
+
+An exported image carries the accepted current state and a one-step request. Reopening it advances that state. Diagnostic probabilities are recalculated; their bytes can vary slightly across numerical platforms. Native execution does not retrain. Existing output files are preserved.
+
+## Build, test and author
+
+Development requires Python 3.12+ and **.NET SDK 10.0.401** on Windows. NumPy 2.3.5 and Pillow 12.3.0 are pinned authoring/test dependencies.
+
+```powershell
+python -m pip install -r requirements.txt
+python build_player.py
+python native_carrier.py --output runs/my-native-examples
 python -m unittest discover -s tests -v
+dotnet dotnet/NeuralPlayer/bin/Release/net10.0-windows/NeuralPlayer.dll --step examples-native/or.tiff --out runs/next.gif
+python package_release.py --out releases/Neuron-Noodle-0.4.0-win-x64.zip
 ```
 
-The 21 tests include all 32 neighborhoods for both OR and AND models, changed-model and changed-program execution through TIFF and GIF, refreshed-carrier continuation, no runtime retraining, a one-weight graph, an independent Manhattan-distance oracle, checkpoint-program integrity, malformed and excessive inputs, and source preservation. See [audit.json](audit.json) and [CHANGELOG.md](CHANGELOG.md).
+The packager includes the CLR, official runtime notices, per-file integrity manifest and GPL corresponding `source.zip`. `--package-source` accepts a local directory of official runtime NuGet packages for an offline build. `--skip-execution` produces explicitly unverified build output. `NNF_DOTNET` can select a portable .NET host for tests; `NNF_PLAYER_DIR` tests a self-contained published directory. The player itself requires neither variable.
+
+The embedded interpreter was also rebuilt from a fresh committed Git checkout at a different absolute path and produced the same SHA256 as the shipped images. The project disables source-revision suffixes in assembly version metadata, so cloning the repository does not silently change the approved runtime. See [runtime reproducibility evidence](evidence/runtime-reproducibility.json).
+
+For custom images, `native_carrier.author` converts a validated Python-reference job into the native decimal-string profile, and `encode` stores it in pixels. `native_carrier.reference` independently evaluates the same image data for testing. The source `runtime-payload.json` is **authoring input only** and is not required or included beside the packaged player.
+
+The earlier `demo/` and `examples/` assets use the v0.3 graph-in-pixels profile with an external Python interpreter. They remain available for the Python `run.py` research CLI and checkpoint workflow; the native player deliberately rejects that older profile. Their MSSL records describe evidence only, not native MSSL computation.
 
 ## License
 
-Project source, tests, documentation, and generated examples are licensed under **GNU General Public License version 3 only (GPL-3.0-only)**. See [LICENSE](LICENSE). Installed dependencies retain their respective licenses.
+Project source, compiled interpreter, documentation and generated examples are **GNU GPL version 3 only (GPL-3.0-only)**. See [LICENSE](LICENSE). The package includes corresponding source. Bundled Microsoft .NET runtime components retain their upstream licenses and notices in `licenses/`; Python, NumPy and Pillow remain external development dependencies. No OCR engine, language corpus or Java runtime is redistributed here.

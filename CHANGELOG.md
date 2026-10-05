@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.4.0 — 2026-10-05
+
+- Added a self-contained Windows desktop package: extract and launch without Python, an installed .NET runtime or build tools.
+- Embedded the compiled generic .NET tensor interpreter in each native TIFF/GIF alongside the operator graph, model and current state. The bootstrap accepts only its compiled approved module hash and loads the interpreter from image bytes.
+- Added native model/program mutation, exported-image continuation, hostile-input and independent numerical parity tests. The isolated player runs without Python files, authoring sidecars or a loose interpreter DLL.
+- Added Execute, Run/Pause, Open, Reload and TIFF/GIF Export controls; exercised the live timer, keyboard handlers and export callbacks in package verification.
+- Added a distinct NNFIELD3 / nnf-native/1 profile with bounded decimal-string model/constant values for exact cross-language packet canonicalization.
+- Fixed numeric comparison tensors so subsequent arithmetic uses 0/1 values consistently in NumPy, scalar Python and .NET.
+- Retained GPL corresponding source, official bundled-runtime licenses/notices, per-file manifests and explicit bootstrap/CPU boundaries.
+- Disabled Git-revision assembly-version suffixes and verified identical interpreter bytes after rebuilding a fresh Git checkout at a different path.
+
 ## 0.3.0 — 2026-10-05
 
 - Replaced recipe-only execution with image-carried operator graphs, model weights/bias, binary field state, tick, and step count.

@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "neuron-noodle-field"
-version = "0.3.0"
+version = "0.4.0"
 description = "Executable neural operator graphs, models and field state carried in TIFF/GIF pixels"
 readme = "README.md"
 requires-python = ">=3.12"
@@ -16,4 +16,4 @@ dependencies = ["numpy==2.3.5", "Pillow==12.3.0"]
 neuron-noodle-field = "neural_field:main"
 
 [tool.setuptools]
-py-modules = ["neural_field", "graph_vm"]
+py-modules = ["neural_field", "graph_vm", "native_carrier"]

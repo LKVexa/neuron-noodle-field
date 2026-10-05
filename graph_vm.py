@@ -123,7 +123,8 @@ def execute(program,model,state):
                 elif op in ('ADD','MUL','GE'):
                     a,b=registers[ins[2]],registers[ins[3]]
                     if isinstance(a,np.ndarray) and isinstance(b,np.ndarray) and a.shape!=b.shape: raise GraphError("Binary tensor shapes must match")
-                    value=a+b if op=='ADD' else (a*b if op=='MUL' else a>=b)
+                    value=a+b if op=='ADD' else (a*b if op=='MUL' else np.asarray(a>=b,dtype=np.float64))
+                    if isinstance(value,np.ndarray) and value.ndim==0:value=float(value)
                 elif op=='SIGMOID': value=1/(1+np.exp(-np.clip(registers[ins[2]],-60,60)))
                 registers[ins[1]]=_bounded(value,n)
     except (ValueError,TypeError,KeyError,OverflowError,FloatingPointError) as exc:

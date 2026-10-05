@@ -1,8 +1,8 @@
 {
   "project": "neuron-noodle-field",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "audit_date": "2026-10-05",
-  "scope": "Pixel-carried neural graph, model and current state; generic dual interpreter; refresh continuation",
+  "scope": "Image-carried .NET tensor interpreter, graph/model/state, self-contained Windows desktop delivery",
   "status": "PASS_WITH_DOCUMENTED_LIMITS",
   "findings": [
     {
@@ -67,12 +67,40 @@
       "finding": "Direct scalar reference calls did not bound intermediate integer growth or validate returned grids independently of the primary interpreter.",
       "fix": "Check reference intermediate shape/range after every instruction and reject nonbinary outputs or mismatched DOT inputs. Carrier execution already ran the bounded primary interpreter first.",
       "status": "FIXED"
+    },
+    {
+      "id": "NNF-010",
+      "severity": "high",
+      "finding": "The v0.3 interpreter implementation remained outside the image and the source archive required a development environment.",
+      "fix": "Carry the compiled generic NeuralRuntime assembly in every native image, pin bootstrap trust, and deliver a verified self-contained Windows package with GPL corresponding source.",
+      "status": "FIXED"
+    },
+    {
+      "id": "NNF-011",
+      "severity": "medium",
+      "finding": "NumPy boolean comparison tensors used boolean ADD semantics while scalar arithmetic treated true as one.",
+      "fix": "Represent graph comparisons numerically as 0/1; prove comparison-followed-by-arithmetic parity across NumPy, scalar Python and .NET.",
+      "status": "FIXED"
+    },
+    {
+      "id": "NNF-012",
+      "severity": "medium",
+      "finding": "Native import could otherwise admit conflicting historical frames.",
+      "fix": "Preflight bounded raster structures and validate equal exact payloads in every frame before execution.",
+      "status": "FIXED"
+    },
+    {
+      "id": "NNF-013",
+      "severity": "medium",
+      "finding": "Default SDK assembly metadata could append a Git revision and change the approved interpreter hash when rebuilding from a clone.",
+      "fix": "Disable source revision in informational version for runtime and host. Commit a source fixture, clone at a different absolute path, rebuild and verify exact runtime SHA256 equality.",
+      "status": "FIXED"
     }
   ],
   "validation": {
     "test_command": "python -m unittest discover -s tests -v",
-    "tests_run": 21,
-    "tests_passed": 21,
+    "tests_run": 27,
+    "tests_passed": 27,
     "numpy": "2.3.5",
     "pillow": "12.3.0",
     "covered": [
@@ -86,18 +114,89 @@
       "Checkpoint includes program and reproduces uninterrupted final bytes",
       "Program/model/image corruption and resource limits reject",
       "Relative evidence and MSSL seal",
-      "Direct reference entry point rejects intermediate growth, mismatched models and invalid output"
+      "Direct reference entry point rejects intermediate growth, mismatched models and invalid output",
+      "Image-contained interpreter with no Python or loose runtime present",
+      "Native model/graph mutations and exported TIFF/GIF reexecution",
+      "All32 neighborhoods and random-model native/reference parity",
+      "Live UI keyboard/timer/export callbacks",
+      "Native hostile input and pinned-runtime rejection"
     ],
     "visual_review": "PASS: final-frame PNG inspected after ACL correction",
-    "behavior_evidence": "examples/behavior_evidence.json"
+    "behavior_evidence": "evidence/native-release.json",
+    "native_runtime_bytes": 15360,
+    "native_runtime_sha256": "fa86bb639b7bd1be6daee72fcd705c967fe7f44d4736a8dd66a7f4c0261b8372",
+    "native_tests": 6,
+    "self_contained_execution": {
+      "checks": [
+        {
+          "active_cells": 5,
+          "case": "or",
+          "continued_active_cells": 13,
+          "format": "tiff",
+          "runtime_program_model_preserved": true,
+          "scalar_reference_parity": true
+        },
+        {
+          "active_cells": 5,
+          "case": "or",
+          "continued_active_cells": 13,
+          "format": "gif",
+          "runtime_program_model_preserved": true,
+          "scalar_reference_parity": true
+        },
+        {
+          "active_cells": 0,
+          "case": "and",
+          "continued_active_cells": 0,
+          "format": "tiff",
+          "runtime_program_model_preserved": true,
+          "scalar_reference_parity": true
+        },
+        {
+          "active_cells": 0,
+          "case": "and",
+          "continued_active_cells": 0,
+          "format": "gif",
+          "runtime_program_model_preserved": true,
+          "scalar_reference_parity": true
+        },
+        {
+          "active_cells": 1,
+          "case": "center",
+          "continued_active_cells": 1,
+          "format": "tiff",
+          "runtime_program_model_preserved": true,
+          "scalar_reference_parity": true
+        },
+        {
+          "active_cells": 1,
+          "case": "center",
+          "continued_active_cells": 1,
+          "format": "gif",
+          "runtime_program_model_preserved": true,
+          "scalar_reference_parity": true
+        }
+      ],
+      "environment": "Direct self-contained EXE; PATH is Windows System32; no installed Python or dotnet command",
+      "status": "passed",
+      "ui": {
+        "automatic_timer_refreshes": 3,
+        "export_callback_exercised": true,
+        "final_tick": 4,
+        "keyboard_handler_exercised": true,
+        "refresh_executed": true,
+        "ui_constructed": true
+      }
+    },
+    "reproducibility": "evidence/runtime-reproducibility.json"
   },
   "limitations": [
-    "Generic bounded tensor graph, not an arbitrary-program or full Penteract runtime",
-    "Graph/model/state are in pixels; generic Python/NumPy interpreter implementation remains external",
-    "No physical optical computing claim",
-    "MSSL records evidence, not native MSSL execution",
-    "Hashes provide integrity, not author authentication",
-    "Diagnostic probabilities are recalculated from the current binary field",
-    "Floating-point bytes can vary across numerical platforms"
+    "Requires external CLR/bootstrap/UI/codecs (included in Windows download)",
+    "CPU computation, not physical optics",
+    "Bounded tensor language, not arbitrary-program or full Penteract runtime",
+    "No native MSSL computation",
+    "Checksums are not author authentication; compiled runtime hash is separately pinned",
+    "Native and Python profile formats are distinct",
+    "Floating-point bytes may vary slightly across platforms"
   ]
 }
